@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
         dryRun = true,
         strict = true
 )
-// new fixed
+// new fixed new one
 public class CucumberRunner {
 
 
