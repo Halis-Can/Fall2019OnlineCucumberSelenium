@@ -11,7 +11,8 @@ import org.junit.runner.RunWith;
         dryRun = false,
         strict = false,
        // tags="@sales_manager and @driver"==>we dont have both scenario for use and tag
-        tags="@dashboard and @driver"
+        tags="@login_with_params",
+        plugin="html:target/cucumber-html-report"
 )
 // new fixed new one
 public class CucumberRunner {
