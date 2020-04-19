@@ -61,12 +61,16 @@ public class VehiclesPage extends AbstractPageBase {
 
     public void clickToCreateCar() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
+        BrowserUtilities.wait(2);
         wait.until(ExpectedConditions.elementToBeClickable(createCar)).click();
+
     }
 
     public String getCarGeneralInfo(String parameter) {
         String xpath = "//label[text()='" + parameter + "']/following-sibling::div/div";
+        BrowserUtilities.wait(2);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+
         return driver.findElement(By.xpath(xpath)).getText().trim();
     }
 }
