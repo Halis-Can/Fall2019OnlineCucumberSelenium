@@ -1,4 +1,3 @@
-
 @activities
 Feature: Create calendar event
   As user, I want to be able to create calendar events.
