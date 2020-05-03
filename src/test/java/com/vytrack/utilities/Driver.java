@@ -1,10 +1,18 @@
 package com.vytrack.utilities;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Driver {
 
@@ -17,8 +25,9 @@ public class Driver {
 
     }
 
-    /**synchronized makes method thread safe. It ensures that only 1 thread can use it at the time.
-     *
+    /**
+     * synchronized makes method thread safe. It ensures that only 1 thread can use it at the time.
+     * <p>
      * Thread safety reduces performance but it makes everything safe.
      *
      * @return
@@ -29,6 +38,11 @@ public class Driver {
         if (driverPool.get() == null) {
             //specify browser type in configuration.properties file
             String browser = ConfigurationReader.getProperty("browser").toLowerCase();
+            // -Dbrowser=firefox
+            if (System.getProperty("browser") != null) {
+                browser = System.getProperty("browser");
+            }
+
             switch (browser) {
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
@@ -43,6 +57,18 @@ public class Driver {
                     options.setHeadless(true);
                     driverPool.set(new ChromeDriver(options));
                     break;
+                case "chrome-remote":
+                    try {
+                        URL url = new URL("http://34.236.36.95:4444/wd/hub");
+                        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+                        desiredCapabilities.setBrowserName(BrowserType.CHROME);
+                        desiredCapabilities.setPlatform(Platform.ANY);
+
+                        driverPool.set(new RemoteWebDriver(url, desiredCapabilities));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 case "firefox":
                     WebDriverManager.firefoxdriver().setup();
                     driverPool.set(new FirefoxDriver());
@@ -54,8 +80,9 @@ public class Driver {
         return driverPool.get();
     }
 
-    /**synchronized makes method thread safe. It ensures that only 1 thread can use it at the time.
-     *
+    /**
+     * synchronized makes method thread safe. It ensures that only 1 thread can use it at the time.
+     * <p>
      * Thread safety reduces performance but it makes everything safe.
      *
      * @return

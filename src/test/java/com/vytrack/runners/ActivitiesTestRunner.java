@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
         dryRun = false,
         strict = false,
         tags = "A",
+
         plugin = {
                 "html:target/default-report",
                 "json:target/cucumber2.json"
