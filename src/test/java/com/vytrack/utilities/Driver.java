@@ -69,6 +69,18 @@ public class Driver {
                         e.printStackTrace();
                     }
                     break;
+                case "firefox-remote":
+                    try {
+                        URL url = new URL("http://34.236.36.95:4444/wd/hub");
+                        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+                        desiredCapabilities.setBrowserName(BrowserType.FIREFOX);
+                        desiredCapabilities.setPlatform(Platform.ANY);
+
+                        driverPool.set(new RemoteWebDriver(url, desiredCapabilities));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 case "firefox":
                     WebDriverManager.firefoxdriver().setup();
                     driverPool.set(new FirefoxDriver());
